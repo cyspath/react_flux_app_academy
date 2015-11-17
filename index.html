@@ -9,11 +9,19 @@
   <body>
 
     <div id="my-component"></div>
+    <div id="my-button"></div>
+
+    <script src="button_counter.js"></script>
 
     <script type="text/javascript">
       React.render(
           React.createElement('div', {}, 'Hello from React!'),
           document.getElementById('my-component')
+      );
+
+      React.render(
+        React.createElement(ClickCounter, {}, ""),
+        document.getElementById('my-button')
       );
     </script>
 
