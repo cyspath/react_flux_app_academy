@@ -4,26 +4,84 @@
     <meta charset="utf-8">
     <title></title>
     <script src="https://fb.me/react-0.13.3.js"></script>
-
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
   </head>
   <body>
 
     <div id="my-component"></div>
     <div id="my-button"></div>
+    <div id="my-jsx-button"></div>
 
-    <script src="button_counter.js"></script>
-
-    <script type="text/javascript">
-      React.render(
-          React.createElement('div', {}, 'Hello from React!'),
-          document.getElementById('my-component')
-      );
-
-      React.render(
-        React.createElement(ClickCounter, {}, ""),
-        document.getElementById('my-button')
-      );
-    </script>
 
   </body>
 </html>
+
+
+<script src="button_counter.js"></script>
+<script type="text/javascript">
+  React.render(
+      React.createElement('div', {}, 'Hello from React!'),
+      document.getElementById('my-component')
+  );
+
+  React.render(
+    React.createElement(ClickCounter, {}, ""),
+    document.getElementById('my-button')
+  );
+</script>
+
+<script type="text/jsx">
+  var ClickCounter = React.createClass({
+
+    getInitialState: function() {
+      return { count: 0 }
+    },
+
+    click: function(e) {
+      e.preventDefault();
+      this.setState({ count: this.state.count + 1 });
+    },
+
+    render: function() {
+      return (
+        <div>
+          <button onClick={ this.click }>CLICK ME (JSX)</button>
+          <span>{ this.state.count }</span>
+        </div>
+      )
+    }
+  })
+
+  React.render(
+    <ClickCounter/>,
+    document.getElementById('my-jsx-button')
+  );
+</script>
+
+<script type="text/jsx">
+  var ClickCounter = React.createClass({
+
+    getInitialState: function() {
+      return { count: 0 }
+    },
+
+    click: function(e) {
+      e.preventDefault();
+      this.setState({ count: this.state.count + 1 });
+    },
+
+    render: function() {
+      return (
+        <div>
+          <button onClick={ this.click }>CLICK ME (JSX)</button>
+          <span>{ this.state.count }</span>
+        </div>
+      )
+    }
+  })
+
+  React.render(
+    <ClickCounter/>,
+    document.getElementById('my-jsx-button')
+  );
+</script>
