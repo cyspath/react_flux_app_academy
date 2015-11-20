@@ -5,12 +5,17 @@
     <title></title>
     <script src="https://fb.me/react-0.13.3.js"></script>
     <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="assets/five_example.css" media="screen" title="no title" charset="utf-8">
+
   </head>
   <body>
 
-    <div id="my-component"></div>
-    <div id="my-button"></div>
-    <div id="my-jsx-button"></div>
+    <div id="my-component"></div><br>
+    <div id="my-button"></div><br>
+    <div id="my-jsx-button"></div><br>
+    <div id="timer"></div><br>
+    <div id="menu"></div><br>
 
 
   </body>
@@ -59,7 +64,10 @@
 </script>
 
 <script type="text/jsx">
-  var ClickCounter = React.createClass({
+
+  // CLICK COUNTER
+
+  var ClickCounterJSX = React.createClass({
 
     getInitialState: function() {
       return { count: 0 }
@@ -81,7 +89,84 @@
   })
 
   React.render(
-    <ClickCounter/>,
+    <ClickCounterJSX/>,
     document.getElementById('my-jsx-button')
   );
+
+  // TIMER
+
+  var Timer = React.createClass({
+
+    getInitialState: function() {
+      // called once
+      return { elapsed: 0 };
+    },
+
+    componentDidMount: function() {
+      // when component is mounted, this is called once
+      this.timer = setInterval(this.tick, 50);
+    },
+
+    componentWillMount: function() {
+      // removes timer interval when component is removed
+      clearInterval(this.timer);
+    },
+
+    tick: function() {
+      this.setState({ elapsed: new Date() - this.props.start });
+    },
+
+    render: function() {
+      var elapsed = Math.round(this.state.elapsed/100);
+      var seconds = (elapsed/10).toFixed(1);
+      // var seconds = elapsed
+      return <p>This timer was started <b>{ seconds }</b> ago.</p>;
+    }
+  })
+
+  React.render(
+    <Timer start = { Date.now() } />,
+    document.getElementById('timer')
+  )
+
+  // Menu
+
+  var MenuExample = React.createClass({
+          getInitialState: function(){
+              return { focused: 0 };
+          },
+          clicked: function(index){
+              // The click handler will update the state with
+              // the index of the focused menu entry
+              this.setState({focused: index});
+          },
+          render: function() {
+              // Here we will read the items property, which was passed
+              // as an attribute when the component was created
+              var self = this;
+              // The map method will loop over the array of menu entries,
+              // and will return a new array with <li> elements.
+              return (
+                  <div>
+                      <ul>{ this.props.items.map(function(m, index){
+                          var style = '';
+                          if(self.state.focused == index){
+                              style = 'focused';
+                          }
+                          // Notice the use of the bind() method. It makes the
+                          // index available to the clicked function:
+                          return <li className={style} onClick={self.clicked.bind(self, index)}>{m}</li>;
+                      }) }
+                      </ul>
+                      <p>Selected: {this.props.items[this.state.focused]}</p>
+                  </div>
+              );
+          }
+        });
+
+        // Render the menu component on the page, and pass an array with menu options
+        React.render(
+            <MenuExample items={ ['Home', 'Services', 'About', 'Contact us'] } />,
+            document.getElementById('menu')
+        );
 </script>
