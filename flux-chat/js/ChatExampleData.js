@@ -10,6 +10,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+// Seed file - stored in local storage
+
 module.exports = {
 
   init: function() {
